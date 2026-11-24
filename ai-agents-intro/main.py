@@ -4,6 +4,7 @@ import sys
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
+from tools.file_writer import save_markdown_file
 
 from agents.explainer_agent import explainer_agent
 
@@ -33,9 +34,13 @@ async def run_agent(topic: str) -> str:
     return final_text
 
 
+OUTPUT_PATH = "output/study_guide.md"
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print('Usage: python3 main.py "<topic>"')
         sys.exit(1)
     topic = " ".join(sys.argv[1:])
-    print(asyncio.run(run_agent(topic)))
+    result = asyncio.run(run_agent(topic))
+    print(result)
+    print(save_markdown_file(OUTPUT_PATH, result))
