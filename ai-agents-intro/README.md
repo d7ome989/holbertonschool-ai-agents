@@ -7,6 +7,7 @@ A small AI agent system built with Python, Google ADK, LiteLLM and Ollama.
 - **Provider:** Ollama (local), connected through LiteLLM
 - **Explainer Agent:** `llama3.2:1b` (`ollama_chat/llama3.2:1b`)
 - **Practice Designer Agent:** `gemma2:2b` (`ollama_chat/gemma2:2b`)
+- **Reviewer Agent:** `gemma2:2b` (`ollama_chat/gemma2:2b`)
 
 ## Setup
 
@@ -52,6 +53,7 @@ A small AI agent system built with Python, Google ADK, LiteLLM and Ollama.
 | `OLLAMA_API_BASE` | Address of the local Ollama server |
 | `EXPLAINER_MODEL` | LiteLLM model name for the Explainer Agent |
 | `PRACTICE_MODEL` | LiteLLM model name for the Practice Designer Agent |
+| `REVIEWER_MODEL` | LiteLLM model name for the Reviewer Agent |
 
 ## Usage
 
@@ -109,3 +111,4 @@ example_function()
 - With Arabic input it misunderstood the topic and explained Bayes' theorem instead of Python variables.
 - The practice designer sometimes writes illogical exercises, vague expected output, or more hints than requested.
 - With the 1B model, the practice designer often skipped the Hints section or wrote the solution, so `gemma2:2b` is used for this agent.
+- The reviewer can miss real problems (for example an undefined name in the example) and sometimes gives generic comments. With the 1B model it approved an incomplete draft, so `gemma2:2b` is used for this agent.
