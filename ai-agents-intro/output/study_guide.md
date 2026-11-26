@@ -3,74 +3,73 @@
 HTTP status codes
 
 ## Simple Explanation
-HTTP (Hypertext Transfer Protocol) status codes are a way to communicate the result of a request to a server. Each status code has a specific meaning, such as success or failure. Understanding these codes is essential for working with web applications.
+HTTP status codes are a way to communicate the outcome of a request to a server in a standardized format. They tell the client (web browser) how well the request was received and what kind of error occurred.
 
 ## Key Concepts
-*   HTTP status codes can be categorized into four levels:
-    *   100-199: Success codes
-    *   200-299: Created, updated, or deleted codes
-    *   300-399: Moved codes
-    *   400-499: Client error codes
-    *   500-599: Server error codes
-*   Each status code has a specific reason for the request to be unsuccessful.
-*   Understanding HTTP status codes is crucial for building robust web applications.
+* **200 OK**: The request was successful.
+* **400 Bad Request**: The request was invalid or missing required data.
+* **401 Unauthorized**: The client did not provide valid credentials.
+* **403 Forbidden**: The client was not authorized to access the requested resource.
+* **404 Not Found**: The requested resource was not found.
 
 ## Example
-Here's an example of using the HTTP status code 201 Created to create a new resource:
-
 ```python
-import requests
+def handle_http_status_code(status_code):
+    if status_code == 200:
+        return f"The request was successful. Status code: {status_code}"
+    elif status_code == 400:
+        return f"The request was invalid. Status code: {status_code}"
+    elif status_code == 401:
+        return f"The client did not provide valid credentials. Status code: {status_code}"
+    elif status_code == 403:
+        return f"The client was not authorized to access the requested resource. Status code: {status_code}"
+    else:
+        return f"Unknown status code: {status_code}"
 
-def create_resource():
-    url = "https://example.com/resources"
-    response = requests.post(url, json={"name": "Resource Created", "description": "This is a new resource."})
-    print(response.status_code)
-
-create_resource()
+print(handle_http_status_code(200))  # Output: The request was successful. Status code: 200
+print(handle_http_status_code(400))  # Output: The request was invalid. Status code: 400
+print(handle_http_status_code(401))  # Output: The client did not provide valid credentials. Status code: 401
+print(handle_http_status_code(403))  # Output: The client was not authorized to access the requested resource. Status code: 403
 ```
 
-This code sends a POST request to the specified URL with the newly created resource in the request body. The response from the server indicates the status code, which is used to determine the outcome of the request.
-
 ## Practice Exercise
-Create a program that prints the HTTP status codes for the following actions:
-
-*   Fetching a resource (GET)
-*   Submitting a form (POST)
-*   Deleting a resource (DELETE)
-
+Write a program that prints the HTTP status code for a successful request, a bad request, an unauthorized request, and a not found request.
 
 ### Expected Input
 None
 
 ### Expected Output
 200
-201
-204 
-
+400
+401
+404
 
 ### Hints
-1.  Look up the meaning of GET, POST, and DELETE requests.
-2.  Review the HTTP status codes in the explanation.
+1. Use a switch statement to check for different status codes.
+2. Remember the HTTP status codes and their corresponding descriptions.
 
 ## Common Mistakes
-*   Forgetting to check the status code to determine if the request was successful.
-*   Not understanding the different categories of status codes and how they relate to the request outcome.
+* Not understanding the difference between a 200 OK status code and a 400 Bad Request status code.
+*  Failing to consider the meaning of different status codes in the context of their respective error responses.
 
 ## Review Comments
 
 ### Missing Information
-*   There is no mention of how to interpret the status code's meaning beyond just a number.
-*   The practice exercise doesn't specify the URLs to use for testing.
+-  It would be beneficial to provide a brief explanation of the role of status codes in the HTTP protocol, how they work, and their importance in web development.
+-  Consider adding a section on common use cases for different status codes.
+
 
 ### Unclear Parts
-*   The explanation mentions "categories of status codes" but doesn't clearly differentiate between success, failure, or redirection codes in a concise way.
+-  The description of `switch statement` could be more concrete for someone just starting to learn about it. 
+
 
 ### Suggestions
-*   Add a section explaining the different status codes, such as 200 (OK), 400 (Bad Request), or 500 (Internal Server Error), to help users understand their basic meanings.
-*   Provide links to resources with more detailed explanations of HTTP status codes.
+-  Include a concise explanation of how to implement a "try-except" block for handling potential errors. 
+-  Elaborate on the importance of understanding the context of a status code.
+
 
 ### Recommendation
-Revise
+Revise.
 
 ## Final Summary
-HTTP status codes are numerical codes used to communicate the result of a request to a server. Understanding these codes is crucial for debugging, analyzing, and building robust web applications.
+HTTP status codes provide essential information about the outcome of a request, allowing clients to understand if the request was successful or resulted in an error.

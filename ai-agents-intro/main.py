@@ -12,6 +12,8 @@ from agents.reviewer_agent import reviewer_agent
 from agents.summary_agent import summary_agent
 from tools.file_writer import save_markdown_file
 from tools.validation import validate_required_sections
+from checks import CheckError, check_models, check_topic
+from config import ConfigError, get_config
 
 APP_NAME = "study_guide_app"
 USER_ID = "student"
@@ -43,6 +45,20 @@ async def run_agent(agent: Agent, message_text: str) -> str:
     return final_text.strip()
 
 
+def run_preflight_checks(topic: str) -> str:
+    """Check topic, configuration and Ollama before running any agent."""
+    topic = check_topic(topic)
+    config = get_config()
+    models = [
+        config["EXPLAINER_MODEL"],
+        config["PRACTICE_MODEL"],
+        config["REVIEWER_MODEL"],
+        config["SUMMARY_MODEL"],
+    ]
+    check_models(config["OLLAMA_API_BASE"], models)
+    return topic
+
+
 def topic_and_explanation(topic: str, explanation: str) -> str:
     """Build the input message for agents that need both."""
     return f"Topic: {topic}\n\nExplanation:\n{explanation}"
@@ -68,13 +84,14 @@ def assemble_final(draft: str, review: str, summary: str) -> str:
     return "\n\n".join([draft, review, summary]) + "\n"
 
 
-def report_validation(markdown: str) -> None:
-    """Print the validation result and any missing sections."""
+def report_validation(markdown: str) -> bool:
+    """Print the validation result and return True if it passed."""
     result = validate_required_sections(markdown)
     if result["valid"]:
         print("Validation: all required sections are present.")
     else:
         print("Validation: missing sections ->", ", ".join(result["missing"]))
+    return result["valid"]
 
 
 async def main(topic: str) -> None:
@@ -100,12 +117,21 @@ async def main(topic: str) -> None:
     final_markdown = assemble_final(draft, review, summary)
 
     print("[5/5] Validating and saving...")
-    report_validation(final_markdown)
-    print(save_markdown_file(OUTPUT_PATH, final_markdown))
-
+    is_valid = report_validation(final_markdown)
+    save_result = save_markdown_file(OUTPUT_PATH, final_markdown)
+    print(save_result)
+    if save_result.startswith("Error:"):
+        raise SystemExit(1)
+    if not is_valid:
+        print("Warning: the guide was saved but is incomplete.")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print('Usage: python3 main.py "<topic>"')
         sys.exit(1)
-    asyncio.run(main(" ".join(sys.argv[1:])))
+    try:
+        clean_topic = run_preflight_checks(" ".join(sys.argv[1:]))
+    except (CheckError, ConfigError) as error:
+        print(f"Error: {error}")
+        sys.exit(1)
+    asyncio.run(main(clean_topic))

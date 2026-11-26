@@ -1,7 +1,12 @@
 from google.adk.agents import Agent
 from google.adk.models.lite_llm import LiteLlm
 
-MODEL_NAME = "ollama_chat/llama3.2:1b"
+import os
+
+from config import load_env_file
+
+load_env_file()
+MODEL_NAME = os.getenv("EXPLAINER_MODEL", "ollama_chat/llama3.2:1b")
 
 explainer_agent = Agent(
     name="explainer_agent",

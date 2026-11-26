@@ -1,7 +1,11 @@
 from google.adk.agents import Agent
 from google.adk.models.lite_llm import LiteLlm
+import os
 
-MODEL_NAME = "ollama_chat/gemma2:2b"
+from config import load_env_file
+
+load_env_file()
+MODEL_NAME = os.getenv("REVIEWER_MODEL", "ollama_chat/gemma2:2b")
 
 INSTRUCTION = """You are a reviewer for beginner programming study guides.
 The user message contains a draft study guide.

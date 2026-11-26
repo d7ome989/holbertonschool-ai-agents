@@ -1,7 +1,12 @@
 from google.adk.agents import Agent
 from google.adk.models.lite_llm import LiteLlm
 
-MODEL_NAME = "ollama_chat/gemma2:2b"
+import os
+
+from config import load_env_file
+
+load_env_file()
+MODEL_NAME = os.getenv("PRACTICE_MODEL", "ollama_chat/gemma2:2b")
 
 INSTRUCTION = """You are a practice designer for beginner programming students.
 The user message contains a topic and an explanation of that topic.
