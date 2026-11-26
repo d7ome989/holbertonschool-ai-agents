@@ -1,29 +1,24 @@
-## Explanation
-Python list comprehensions are a powerful feature that allows you to create new lists in a concise and expressive way. They consist of three essential parts: the **for** loop, the **expression**, and the **if** condition. You can use these three parts together to create a list comprehension that can manipulate and transform your data in various ways.
-
-For example, consider the following code:
-```python
-numbers = [1, 2, 3, 4, 5]
-squares = [x**2 for x in numbers]
-print(squares)  # Output: [1, 4, 9, 16, 25]
-```
-In this example, the list comprehension `[x**2 for x in numbers]` creates a new list `squares` containing the squares of each number in the original list `numbers`.
+## Simple Explanation
+Python decorators are a powerful feature that allows developers to add additional functionality to existing functions without modifying their source code. They provide a flexible way to wrap another function in order to extend the behavior of the wrapped function, without permanently modifying it.
 
 ## Key Concepts
-
-*   **List Comprehensions**: A concise way to create new lists in Python.
-*   **For Loop**: Used to iterate over a sequence (such as a list or string).
-*   **Expression**: The operation that is performed on each element of the sequence.
-*   **If Condition**: Optional, used to filter elements from the sequence.
-*   **List**: The underlying data structure that stores the transformed elements.
+*   **Decorators**: A decorator is a function that takes another function as an argument and returns a new function that "wraps" the original function.
+*   **Functional Programming**: Decorators are a key concept in functional programming, allowing developers to write code that can be reused across multiple functions.
+*   **Function Wrapping**: The decorator is essentially a function that wraps the original function, making it available as a new function with the added functionality.
 
 ## Example
-Here is an example code that demonstrates how to use list comprehensions with conditional statements:
 ```python
-numbers = [1, 2, 3, 4, 5]
-even_squares = [x**2 for x in numbers if x % 2 == 0]
-print(even_squares)  # Output: [4, 16]
-```
-In this example, the list comprehension `[x**2 for x in numbers if x % 2 == 0]` creates a new list `even_squares` containing the squares of even numbers from the original list `numbers`.
+def my_decorator(func):
+    def wrapper():
+        print("Something is happening before the function is called.")
+        func()
+        print("Something is happening after the function is called.")
+    return wrapper
 
-Stop here. No additional code is needed.
+@my_decorator
+def say_hello():
+    print("Hello!")
+
+say_hello()
+```
+In this example, `my_decorator` is a decorator that takes `say_hello` as an argument and returns a new function `wrapper`. The `wrapper` function calls `say_hello` inside it, and also prints out a message before and after the call. When you run `say_hello()`, it will print the message and then call `say_hello`.

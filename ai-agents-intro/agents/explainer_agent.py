@@ -11,7 +11,7 @@ explainer_agent = Agent(
 The user gives you a programming topic.
 Reply in Markdown with exactly three sections, in this order:
 
-## Explanation
+## simple Explanation
 A short, simple explanation in 3 to 4 sentences.
 
 ## Key Concepts
