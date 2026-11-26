@@ -4,9 +4,9 @@ A small AI agent system built with Python, Google ADK, LiteLLM and Ollama.
 
 ## Model Provider
 
-- **Provider:** Ollama (local)
-- **Model:** `llama3.2:1b`
-- **Connector:** LiteLLM (`ollama_chat/llama3.2:1b`)
+- **Provider:** Ollama (local), connected through LiteLLM
+- **Explainer Agent:** `llama3.2:1b` (`ollama_chat/llama3.2:1b`)
+- **Practice Designer Agent:** `gemma2:2b` (`ollama_chat/gemma2:2b`)
 
 ## Setup
 
@@ -23,14 +23,15 @@ A small AI agent system built with Python, Google ADK, LiteLLM and Ollama.
    pip install -r requirements.txt
    ````
 
-3. Install Ollama (https://ollama.com) and pull the model:
+3. Install Ollama (https://ollama.com) and pull the models:
 
    ````bash
    curl -fsSL https://ollama.com/install.sh | sh
    ollama pull llama3.2:1b
+   ollama pull gemma2:2b
    ````
 
-4. Test the model directly:
+4. Test a model directly:
 
    ````bash
    ollama run llama3.2:1b "Say hello in one short sentence."
@@ -49,7 +50,8 @@ A small AI agent system built with Python, Google ADK, LiteLLM and Ollama.
 | Variable | Description |
 |----------|-------------|
 | `OLLAMA_API_BASE` | Address of the local Ollama server |
-| `MODEL_NAME` | LiteLLM model name (`ollama_chat/<model>`) |
+| `EXPLAINER_MODEL` | LiteLLM model name for the Explainer Agent |
+| `PRACTICE_MODEL` | LiteLLM model name for the Practice Designer Agent |
 
 ## Usage
 
@@ -57,12 +59,14 @@ A small AI agent system built with Python, Google ADK, LiteLLM and Ollama.
 python3 main.py "Python decorators"
 ````
 
+The output is validated for required sections and saved to `output/study_guide.md`.
+
 ## Example Output
 
 Topic: `Python decorators` (model: `llama3.2:1b`)
 
 ````markdown
-## Explanation
+## Simple Explanation
 
 Python decorators are a powerful tool in Python that allow you to modify the behavior of a function without permanently changing its implementation. They are a way to wrap a function with additional functionality without permanently modifying the function itself. Decorators are useful for things like logging, timing, and authentication.
 
@@ -103,3 +107,5 @@ example_function()
 - It may ignore the requested number of key concepts and repeat items.
 - It can produce code with missing imports.
 - With Arabic input it misunderstood the topic and explained Bayes' theorem instead of Python variables.
+- The practice designer sometimes writes illogical exercises, vague expected output, or more hints than requested.
+- With the 1B model, the practice designer often skipped the Hints section or wrote the solution, so `gemma2:2b` is used for this agent.
