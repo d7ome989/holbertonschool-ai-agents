@@ -112,3 +112,6 @@ example_function()
 - The practice designer sometimes writes illogical exercises, vague expected output, or more hints than requested.
 - With the 1B model, the practice designer often skipped the Hints section or wrote the solution, so `gemma2:2b` is used for this agent.
 - The reviewer can miss real problems (for example an undefined name in the example) and sometimes gives generic comments. With the 1B model it approved an incomplete draft, so `gemma2:2b` is used for this agent.
+- The pipeline's validator only checks that headings exist, so duplicated sections, unclosed code blocks, or an off-topic exercise still pass validation.
+- The reviewer often misses these problems and gives generic comments.
+- Generated facts can be wrong even when the structure is valid. For example, one run labeled HTTP codes 100-199 as "Success" instead of "Informational", and the reviewer did not catch it.
